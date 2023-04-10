@@ -5,9 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import AvatarImage from '../../images/AvatarImage.png'
 import Avatar from '@mui/material/Avatar';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useContext } from 'react'
-import { AuthContext } from '../../contexts/AuthContext'
-
+import { useContext, useEffect } from 'react'
+import { LOCAL_STORAGE_TOKEN_NAME } from '../../constants/constants';
+import { useAppDispatch } from '../../redux/store';
+import { logOut, setAuth } from '../../redux/slice/authSlice';
+import { loadUser } from '../../redux/apiReq/authReq';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -42,11 +44,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const HeaderBar = () => {
-  const { logoutUser }: any = useContext(AuthContext)
+  const dispatch = useAppDispatch()
+  // const { logoutUser }: any = useContext(AuthContext)
   const logout = () => {
-    logoutUser()
-
+    // dispatch(loadUser());
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+    dispatch(logOut())
   }
+
   return (
     <Box sx={{ flexGrow: 1, border: '1px solid #F4F5F6' }}>
       <AppBar position="static" color='inherit' sx={{ boxShadow: 'none', }}>

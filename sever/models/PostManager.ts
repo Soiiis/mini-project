@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-const AutoIncrement = require("mongoose-sequence")(mongoose);
+// const AutoIncrement = require("mongoose-sequence")(mongoose);
 export const PostManager = new Schema(
   {
-    _id: { type: Number },
+    postId: { type: Number, required: true },
     title: { type: String, required: true },
     imageUrl: { type: String },
     releaseDate: { type: Date, default: Date.now() },
@@ -12,10 +12,10 @@ export const PostManager = new Schema(
       type: Schema.Types.ObjectId,
       ref: "users",
     },
-  },
-  { _id: false }
+  }
+  // { _id: false }
 );
 
-PostManager.plugin(AutoIncrement);
+// PostManager.plugin(AutoIncrement);
 const postManager = mongoose.model("postManager", PostManager);
 export default postManager;

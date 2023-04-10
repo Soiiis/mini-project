@@ -2,9 +2,11 @@ import { Modal, Box, Typography, InputLabel, FormControl, NativeSelect, MenuItem
 import { useContext, useEffect, useState } from 'react';
 import { store } from "../../utils/fireBase";
 import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
-import { LocationManagerContext } from "../../contexts/LocationManagerContext";
-import { PaymentRecordContext } from '../../contexts/PaymentRecordContext';
 import setImage from '../../images/SetImage.png'
+import { RootState, useAppDispatch } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { addPayment } from '../../redux/apiReq/paymentReq';
+import { setClosePaymentModal, setShowToast } from '../../redux/slice/paymentSlice';
 
 //Style Modal
 const style = {
@@ -48,12 +50,10 @@ const StyleSelect = styled(Select)({
 
 export const PaymentRecordModal = () => {
 
-    //Context
-    const {
-
-        showAddPaymentModal, closeDialog, addPayment, setShowToast, showToast, setShowAddPaymentModal
-    }: any = useContext(PaymentRecordContext);
+    const dispatch = useAppDispatch()
+    const { showModal } = useSelector((state: RootState) => state.paymentReducer)
     const [newPayment, setNewPayment] = useState({
+        _id: '',
         logId: "9256821912",
         title: 'By food for kids',
         imageUrl: '',
@@ -63,16 +63,17 @@ export const PaymentRecordModal = () => {
     // image state
     const submitPaymentForm = async (event: any) => {
         event.preventDefault();
-        const postData = await addPayment(newPayment)
+        const postData = await dispatch(addPayment(newPayment))
         setNewPayment({
+            _id: '',
             logId: "9256821912",
             title: 'By food for kids',
             imageUrl: '',
             moneyUsed: '300',
             status: true
         })
-        setShowAddPaymentModal(false)
-        setShowToast(true)
+        dispatch(setClosePaymentModal())
+        dispatch(setShowToast())
 
     }
 
@@ -112,15 +113,15 @@ export const PaymentRecordModal = () => {
                     console.log(error);
 
                 });
-        },)
+        }, 1000)
     }
 
 
     return (
         <>
             <Modal
-                open={showAddPaymentModal}
-                onClose={closeDialog}
+                open={showModal}
+                onClose={() => dispatch(setClosePaymentModal())}
             >
                 <Box component="form" onSubmit={submitPaymentForm}>
                     <Box sx={{ ...style }}>

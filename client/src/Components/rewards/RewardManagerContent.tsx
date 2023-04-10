@@ -14,14 +14,21 @@ import {
     FormControl,
 } from "@mui/material";
 import { textAlign } from "@mui/system";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 import React, { useRef } from "react";
 import { useContext, useEffect, useState } from "react";
-import { RewardManagerContext } from "../../contexts/RewardManagerContext";
+import { useSelector } from "react-redux";
 import ViewIcon from "../../images/viewIcon.png";
+import { deleteManagerReward, findRewardById, getReward } from "../../redux/apiReq/rewardReq";
+import { setShowRewardModal } from "../../redux/slice/rewardSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
 import { RewardManagerModal } from "./rewardManagerModal";
 import { ToastRewardSuccess } from "./ToastRewardSuccess";
-
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import InfoIcon from '@mui/icons-material/Info';
+import { setShowDetails } from "../../redux/slice/rewardSlice";
+import { RewardManagerDetails } from "./rewardManagerDetail";
 
 
 
@@ -34,19 +41,22 @@ const styles = {
 };
 
 export const RewardManagerContent = () => {
-    //Context
-    const {
-        rewardManagerState: { rewards, rewardLoading },
-        getReward, setShowToast, setShowAddRewardModal
-    }: any = useContext(RewardManagerContext);
+    const { rewards, rewardLoading, showModal } = useSelector((state: RootState) => state.rewardReducer)
+    const dispatch = useAppDispatch()
     //Start get all ManagerRewards
     useEffect(() => {
-        getReward();
+        dispatch(getReward())
     }, []);
     console.log(rewards);
 
 
-
+    const handleDeleteReward = (id: string) => () => {
+        dispatch(deleteManagerReward(id))
+    }
+    const handleViewDetailReward = (id: string) => () => {
+        dispatch(findRewardById(id))
+        dispatch(setShowDetails())
+    }
     const columns = [
         { field: "code", headerName: "VOUCHER CODE", width: 150, },
         {
@@ -75,6 +85,15 @@ export const RewardManagerContent = () => {
             field: "activeDate",
             headerName: "ACTIVED DATE",
             width: 300,
+            renderCell: (params: any) => {
+                return (
+                    <>
+
+                        {dayjs(params.row.activeDate).format('DD/MM/YYYY')}
+
+                    </>
+                )
+            }
 
         },
         {
@@ -118,6 +137,29 @@ export const RewardManagerContent = () => {
                     );
             },
         },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'ACTIONS',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: ({ id }: any) => {
+                return [
+                    <GridActionsCellItem
+                        icon={<DeleteIcon />}
+                        label="Delete"
+                        onClick={handleDeleteReward(id)}
+                        color="inherit"
+                    />,
+                    <GridActionsCellItem
+                        icon={<InfoIcon />}
+                        label="Delete"
+                        onClick={handleViewDetailReward(id)}
+                        color="inherit"
+                    />,
+                ];
+            },
+        }
     ];
     let body = null;
 
@@ -152,7 +194,7 @@ export const RewardManagerContent = () => {
                         Reward Management
                     </Typography>
                     <Button
-                        onClick={setShowAddRewardModal.bind(this, true)}
+                        onClick={() => dispatch(setShowRewardModal())}
                         variant="contained"
                         sx={{
                             ...styles,
@@ -163,6 +205,7 @@ export const RewardManagerContent = () => {
                     </Button>
                     <RewardManagerModal />
                     <ToastRewardSuccess />
+                    <RewardManagerDetails />
                 </Box>
                 <DataGrid
                     sx={{ mr: '14px', ml: "24px", backgroundColor: ' #FFFFFF', mt: '24px' }}

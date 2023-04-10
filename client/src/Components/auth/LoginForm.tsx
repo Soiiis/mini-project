@@ -1,9 +1,11 @@
 import Box from '@mui/material/Box'
 import { Button, Grid, InputLabel, Link, TextField, Typography } from "@mui/material";
-import { useState, useContext } from "react"
-import { AuthContext } from '../../contexts/AuthContext'
+import { useState, useContext, useEffect } from "react"
 import { useNavigate } from 'react-router-dom';
 import { AlertMessage } from '../layouts/AlertMessage'
+import { loadUser, loginUser } from "../../redux/apiReq/authReq"
+import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/store';
 const styles = {
   backgroundColor: '#2BA84A',
   '&:hover': {
@@ -11,17 +13,22 @@ const styles = {
   }
 }
 const LoginForm = () => {
+  const dispatch = useAppDispatch()
   //Context
-  const { loginUser }: any = useContext(AuthContext);
-  //Router
-  const navigate = useNavigate();
+  // const { loginUser }: any = useContext(AuthContext);
+
+
   // Local State
   const [loginForm, setLoginForm] = useState({
     username: '',
     password: ''
   })
 
+
   //
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, []);
   const [alert, setAlert] = useState<any>(null)
 
   const { username, password } = loginForm
@@ -29,11 +36,11 @@ const LoginForm = () => {
   const onChangePasswordLoginForm = (event: any) => setLoginForm({ ...loginForm, password: event.target.value })
   const login = async (event: any) => {
     event.preventDefault();
-
     try {
-      const loginData = await loginUser(loginForm)
-      if (!loginData.success) {
-        setAlert({ type: 'error', message: loginData.message })
+      const loginData = await dispatch(loginUser(loginForm))
+      // const loginData = await loginUser(loginForm)
+      if (!loginData.payload.success) {
+        setAlert({ type: 'error', message: loginData.payload.message });
         setTimeout(() => setAlert(null), 5000)
       }
     }

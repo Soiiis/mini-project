@@ -14,14 +14,21 @@ import {
     FormControl,
 } from "@mui/material";
 import { textAlign } from "@mui/system";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 import React, { useRef } from "react";
 import { useContext, useEffect, useState } from "react";
-import { PostManagerContext } from "../../contexts/PostManagerContext";
+import { useSelector } from "react-redux";
 import ViewIcon from "../../images/viewIcon.png";
+import { deleteManagerpost, findPostById, getManagerPosts } from "../../redux/apiReq/postReq";
+import { setShowPostModal } from "../../redux/slice/postSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
 import { PostManagerModal } from "./postManagerModal";
 import { ToastPostSuccess } from "./ToastPostSuccess";
-
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import InfoIcon from '@mui/icons-material/Info';
+import { setShowDetails } from "../../redux/slice/postSlice";
+import { PostManagerDetails } from "./postManagerDetail";
 
 
 //Style Button
@@ -34,20 +41,37 @@ const styles = {
 
 export const PostManagerContent = () => {
     //Context
-    const {
-        postManagerState: { posts, postLoading },
-        getManagerPosts, setShowToast, setShowAddPostModal
-    }: any = useContext(PostManagerContext);
+    // const {
+    //     postManagerState: { posts, postLoading },
+    //     getManagerPosts, setShowToast, setShowAddPostModal
+    // }: any = useContext(PostManagerContext);
+    // const posts = useSelector((state: RootState) => state.postReducer.posts)
+    // const postLoading = useSelector((state: RootState) => state.postReducer.postLoading)
+    const { posts, postLoading, showModal, showToast } = useSelector((state: RootState) => state.postReducer)
+    console.log(posts);
+    console.log(showModal);
+
+
+    const handleDeletePost = (id: string) => () => {
+        dispatch(deleteManagerpost(id))
+    }
+    const handleViewDetailPost = (id: string) => () => {
+        dispatch(findPostById(id))
+        dispatch(setShowDetails())
+    }
+    const dispatch = useAppDispatch()
+
     //Start get all ManagerPosts
     useEffect(() => {
-        getManagerPosts();
+        dispatch(getManagerPosts());
     }, []);
     console.log(posts);
 
-
-
+    const handleShowModal = () => {
+        dispatch(setShowPostModal())
+    }
     const columns = [
-        { field: "_id", headerName: "POST ID", width: 120, },
+        { field: "postId", headerName: "POST ID", width: 120, },
         {
             field: "title",
             headerName: "TITLE",
@@ -69,6 +93,15 @@ export const PostManagerContent = () => {
             field: "releaseDate",
             headerName: "RELEASE DATE",
             width: 300,
+            renderCell: (params: any) => {
+                return (
+                    <>
+
+                        {dayjs(params.row.releaseDate).format('DD/MM/YYYY')}
+
+                    </>
+                )
+            }
         },
         {
             field: "view",
@@ -127,6 +160,29 @@ export const PostManagerContent = () => {
                     );
             },
         },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'ACTIONS',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: ({ id }: any) => {
+                return [
+                    <GridActionsCellItem
+                        icon={<DeleteIcon />}
+                        label="Delete"
+                        onClick={handleDeletePost(id)}
+                        color="inherit"
+                    />,
+                    <GridActionsCellItem
+                        icon={<InfoIcon />}
+                        label="Delete"
+                        onClick={handleViewDetailPost(id)}
+                        color="inherit"
+                    />,
+                ];
+            },
+        }
     ];
     let body = null;
 
@@ -161,7 +217,7 @@ export const PostManagerContent = () => {
                         Post Management
                     </Typography>
                     <Button
-                        onClick={setShowAddPostModal.bind(this, true)}
+                        onClick={handleShowModal}
                         variant="contained"
                         sx={{
                             ...styles,
@@ -172,6 +228,7 @@ export const PostManagerContent = () => {
                     </Button>
                     <PostManagerModal />
                     <ToastPostSuccess />
+                    <PostManagerDetails />
                 </Box>
                 <DataGrid
                     sx={{ mr: '14px', ml: "24px", backgroundColor: ' #FFFFFF', mt: '24px' }}

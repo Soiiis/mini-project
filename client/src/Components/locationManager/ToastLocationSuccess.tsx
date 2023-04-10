@@ -1,8 +1,10 @@
 import { Box, Typography, Modal, Button } from '@mui/material'
 import { useContext } from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { LocationManagerContext } from '../../contexts/LocationManagerContext'
 import ImageSucess from '../../images/SucessImage.png'
+import { setCloseToast } from '../../redux/slice/locationSlice';
+import { RootState, useAppDispatch } from '../../redux/store';
 
 //style modal
 const style = {
@@ -29,13 +31,13 @@ const stylesBtn = {
 };
 
 export const ToastLocationSuccess = () => {
-    //context
-    const { showToast, closeDialog }: any = useContext(LocationManagerContext)
+    const dispatch = useAppDispatch()
+    const { showToast } = useSelector((state: RootState) => state.locationReducer)
     return (
         <>
             <Modal
                 open={showToast}
-                onClose={closeDialog}
+                onClose={() => dispatch(setCloseToast())}
             >
                 <Box sx={style}>
                     <Box>
@@ -50,7 +52,7 @@ export const ToastLocationSuccess = () => {
                         </Box>
                     </Box>
                     <Link style={{ textDecoration: 'none', color: 'inherit' }} to='/location' >
-                        <Button onClick={closeDialog} sx={{ ...stylesBtn }}>Back to location management </Button>
+                        <Button onClick={() => dispatch(setCloseToast())} sx={{ ...stylesBtn }}>Back to location management </Button>
                     </Link>
                 </Box>
             </Modal>

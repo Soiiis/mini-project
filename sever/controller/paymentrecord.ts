@@ -44,3 +44,43 @@ export const postPayment = async (req: any, res: Response) => {
     res.status(500).json({ success: false, message: "Internal sever err" });
   }
 };
+
+export const findPaymentById = async (req: Request, res: Response) => {
+  try {
+    const postFindCondition = { _id: req.params.id, user: req.userId };
+    const findPayment = await paymentRecord.find(postFindCondition);
+
+    // User not authorised or post not found
+    if (!findPayment)
+      return res.status(401).json({
+        success: false,
+        message: "Post not found or user not authorised",
+      });
+
+    res.json({ success: true, payments: findPayment });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Internal sever err" });
+  }
+};
+// delete - location
+export const deletePayment = async (req: Request, res: Response) => {
+  try {
+    const postDeleteCondition = { _id: req.params.id, user: req.userId };
+    const deletedPayment = await paymentRecord.findOneAndDelete(
+      postDeleteCondition
+    );
+
+    // User not authorised or post not found
+    if (!deletedPayment)
+      return res.status(401).json({
+        success: false,
+        message: "Post not found or user not authorised",
+      });
+
+    res.json({ success: true, payments: postDeleteCondition });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Internal sever err" });
+  }
+};

@@ -1,13 +1,21 @@
 import express from "express";
-import { postmanager, getPost } from "../controller/postmanager";
+import {
+  postmanager,
+  getPost,
+  findPostById,
+  deletePost,
+} from "../controller/postmanager";
 const router = express.Router();
 import { verifyToken } from "../middleware/auth";
 // @route GET post/read-post
 // @route POST post/create-post
 
-// Get manager
+// Get post
 router.get("/get-manager", verifyToken, getPost);
-// post manager
+// find post
+router.get("/get-manager/:id", verifyToken, findPostById);
+// post
 router.post("/create-post", verifyToken, postmanager);
-
+//delete post
+router.delete("/delete-manager/:id", verifyToken, deletePost);
 export default router;

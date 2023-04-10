@@ -44,3 +44,43 @@ export const postReward = async (req: any, res: Response) => {
     res.status(500).json({ success: false, message: "Internal sever err" });
   }
 };
+
+export const findRewardById = async (req: Request, res: Response) => {
+  try {
+    const postFindCondition = { _id: req.params.id, user: req.userId };
+    const findReward = await rewardManager.find(postFindCondition);
+
+    // User not authorised or post not found
+    if (!findReward)
+      return res.status(401).json({
+        success: false,
+        message: "Post not found or user not authorised",
+      });
+
+    res.json({ success: true, rewards: findReward });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Internal sever err" });
+  }
+};
+// delete - post
+export const deleteReward = async (req: Request, res: Response) => {
+  try {
+    const postDeleteCondition = { _id: req.params.id, user: req.userId };
+    const deletedReward = await rewardManager.findOneAndDelete(
+      postDeleteCondition
+    );
+
+    // User not authorised or post not found
+    if (!deletedReward)
+      return res.status(401).json({
+        success: false,
+        message: "Post not found or user not authorised",
+      });
+
+    res.json({ success: true, rewards: postDeleteCondition });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Internal sever err" });
+  }
+};

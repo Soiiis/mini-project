@@ -1,14 +1,14 @@
 import { Route, Navigate } from 'react-router-dom'
 import { useContext } from 'react'
-import { AuthContext } from '../../contexts/AuthContext'
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector } from 'react-redux';
+import { AuthState } from '../../redux/slice/authSlice';
+import { RootState } from '../../redux/store';
 
 
 export const ProtectedRoute = ({ component: Component, children }: any) => {
-  const { authState: { authLoading, isAuthenticated } }: any = useContext(AuthContext)
-  // const { authReducer: { authLoading, isAuthenticated } }: any = useSelector((state: any) => state);
+  const { authReducer: { authLoading, isAuthenticated } }: any = useSelector((state: RootState) => state);
   if (authLoading) {
     return (
       <Box
@@ -20,7 +20,7 @@ export const ProtectedRoute = ({ component: Component, children }: any) => {
       </Box>
     )
   }
-  else if (isAuthenticated) {
+  else if (isAuthenticated && localStorage.length == 1) {
     return children
   }
   return (

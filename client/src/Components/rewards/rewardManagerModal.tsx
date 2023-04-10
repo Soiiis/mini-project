@@ -2,9 +2,11 @@ import { Modal, Box, Typography, InputLabel, FormControl, NativeSelect, MenuItem
 import { useContext, useEffect, useState } from 'react';
 import { store } from "../../utils/fireBase";
 import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
-import { PostManagerContext } from "../../contexts/PostManagerContext";
-import { RewardManagerContext } from '../../contexts/RewardManagerContext';
 import setImage from '../../images/SetImage.png'
+import { RootState, useAppDispatch } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { addReward } from '../../redux/apiReq/rewardReq';
+import { setCloseRewardModal, setShowToast } from '../../redux/slice/rewardSlice';
 
 //Style Modal
 const style = {
@@ -47,13 +49,10 @@ const StyleSelect = styled(Select)({
 });
 
 export const RewardManagerModal = () => {
-
-    //Context
-    const {
-
-        showAddRewardModal, closeDialog, addReward, setShowToast, showToast, setShowAddRewardModal, getReward
-    }: any = useContext(RewardManagerContext);
+    const dispatch = useAppDispatch()
+    const { showModal } = useSelector((state: RootState) => state.rewardReducer)
     const [newRewardManager, setNewRewardManager] = useState({
+        _id: '',
         code: '9256821912',
         information: 'VOUCHER 50%',
         imageUrl: '',
@@ -63,16 +62,17 @@ export const RewardManagerModal = () => {
     // image state
     const submitRewardManagerForm = async (event: any) => {
         event.preventDefault();
-        const { sucess, message } = await addReward(newRewardManager)
+        const addNewReward = await dispatch(addReward(newRewardManager))
         setNewRewardManager({
+            _id: '',
             code: '9256821912',
             information: 'VOUCHER 50%',
             imageUrl: '',
             expired: '',
             status: true
         })
-        setShowAddRewardModal(false)
-        setShowToast(true)
+        dispatch(setCloseRewardModal())
+        dispatch(setShowToast())
 
     }
 
@@ -86,7 +86,6 @@ export const RewardManagerModal = () => {
             .then((snapshot) => {
                 console.log('Uploaded sucessfully');
             })
-
         setTimeout(() => {
             getDownloadURL(fileRef)
                 .then((url) => {
@@ -111,15 +110,15 @@ export const RewardManagerModal = () => {
                     console.log(error);
 
                 });
-        },)
+        }, 1000)
     }
 
 
     return (
         <>
             <Modal
-                open={showAddRewardModal}
-                onClose={closeDialog}
+                open={showModal}
+                onClose={() => dispatch(setCloseRewardModal())}
             >
                 <Box component="form" onSubmit={submitRewardManagerForm}>
                     <Box sx={{ ...style }}>

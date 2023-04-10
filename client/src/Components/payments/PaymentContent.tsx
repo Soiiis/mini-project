@@ -14,14 +14,22 @@ import {
     FormControl,
 } from "@mui/material";
 import { textAlign } from "@mui/system";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 import React, { useRef } from "react";
 import { useContext, useEffect, useState } from "react";
-import { LocationManagerContext } from "../../contexts/LocationManagerContext";
-import { PaymentRecordContext } from "../../contexts/PaymentRecordContext";
+import { useSelector } from "react-redux";
+import { deletePayment, findPaymentById, getPayment } from "../../redux/apiReq/paymentReq";
+import { setShowPaymentModal } from "../../redux/slice/paymentSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
 import { ToastPostSuccess } from "../postManager/ToastPostSuccess";
 import { PaymentRecordModal } from "./PaymentRecordModal";
 import { ToastPaymentSuccess } from "./ToastPaymentSuccess";
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import InfoIcon from '@mui/icons-material/Info';
+import { setShowDetails } from "../../redux/slice/paymentSlice";
+import { PaymentManagerDetails } from "./paymentManagerDetail";
+
 
 
 
@@ -34,20 +42,24 @@ const styles = {
     },
 };
 
+
 export const PaymentContent = () => {
-    //Context
-    const {
-        paymentRecordState: { payments, paymentLoading },
-        getPayment, setShowToast, setShowAddPaymentModal
-    }: any = useContext(PaymentRecordContext);
+    const dispatch = useAppDispatch()
+    const { payments, paymentLoading, showModal } = useSelector((state: RootState) => state.paymentReducer)
     //Start get all ManagerLocations
     useEffect(() => {
-        getPayment();
+        dispatch(getPayment());
     }, []);
     console.log(payments);
 
 
-
+    const handleDeletePayment = (id: string) => () => {
+        dispatch(deletePayment(id))
+    }
+    const handleViewDetailPayment = (id: string) => () => {
+        dispatch(findPaymentById(id))
+        dispatch(setShowDetails())
+    }
     const columns = [
         { field: "logId", headerName: "LOG ID", width: 120 },
         {
@@ -84,6 +96,15 @@ export const PaymentContent = () => {
             field: "usedDate",
             headerName: "USED DATE",
             width: 300,
+            renderCell: (params: any) => {
+                return (
+                    <>
+
+                        {dayjs(params.row.usedDate).format('DD/MM/YYYY')}
+
+                    </>
+                )
+            }
 
         },
         {
@@ -127,6 +148,29 @@ export const PaymentContent = () => {
                     );
             },
         },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'ACTIONS',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: ({ id }: any) => {
+                return [
+                    <GridActionsCellItem
+                        icon={<DeleteIcon />}
+                        label="Delete"
+                        onClick={handleDeletePayment(id)}
+                        color="inherit"
+                    />,
+                    <GridActionsCellItem
+                        icon={<InfoIcon />}
+                        label="Delete"
+                        onClick={handleViewDetailPayment(id)}
+                        color="inherit"
+                    />,
+                ];
+            },
+        }
     ];
     let body = null;
 
@@ -161,7 +205,7 @@ export const PaymentContent = () => {
                         Payment Record
                     </Typography>
                     <Button
-                        onClick={setShowAddPaymentModal.bind(this, true)}
+                        onClick={() => dispatch(setShowPaymentModal())}
                         variant="contained"
                         sx={{
                             ...styles,
@@ -172,6 +216,7 @@ export const PaymentContent = () => {
                     </Button>
                     <PaymentRecordModal />
                     <ToastPaymentSuccess />
+                    <PaymentManagerDetails />
                 </Box>
                 <DataGrid
                     sx={{ mr: '14px', ml: "24px", backgroundColor: ' #FFFFFF', mt: '24px' }}

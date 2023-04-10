@@ -43,3 +43,43 @@ export const postLocation = async (req: any, res: Response) => {
     res.status(500).json({ success: false, message: "Internal sever err" });
   }
 };
+
+export const findLocationById = async (req: Request, res: Response) => {
+  try {
+    const postFindCondition = { _id: req.params.id, user: req.userId };
+    const findLocation = await locationManager.find(postFindCondition);
+
+    // User not authorised or post not found
+    if (!findLocation)
+      return res.status(401).json({
+        success: false,
+        message: "Post not found or user not authorised",
+      });
+
+    res.json({ success: true, locations: findLocation });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Internal sever err" });
+  }
+};
+// delete - location
+export const deleteLocation = async (req: Request, res: Response) => {
+  try {
+    const postDeleteCondition = { _id: req.params.id, user: req.userId };
+    const deletedLocation = await locationManager.findOneAndDelete(
+      postDeleteCondition
+    );
+
+    // User not authorised or post not found
+    if (!deletedLocation)
+      return res.status(401).json({
+        success: false,
+        message: "Post not found or user not authorised",
+      });
+
+    res.json({ success: true, locations: postDeleteCondition });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Internal sever err" });
+  }
+};

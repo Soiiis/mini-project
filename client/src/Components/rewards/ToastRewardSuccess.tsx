@@ -1,9 +1,10 @@
 import { Box, Typography, Modal, Button } from '@mui/material'
 import { useContext } from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PostManagerContext } from '../../contexts/PostManagerContext'
-import { RewardManagerContext } from '../../contexts/RewardManagerContext';
 import ImageSucess from '../../images/SucessImage.png'
+import { setCloseToast } from '../../redux/slice/rewardSlice';
+import { RootState, useAppDispatch } from '../../redux/store';
 
 //style modal
 const style = {
@@ -30,13 +31,13 @@ const stylesBtn = {
 };
 
 export const ToastRewardSuccess = () => {
-    //context
-    const { showToast, closeDialog }: any = useContext(RewardManagerContext)
+    const dispatch = useAppDispatch()
+    const { showToast } = useSelector((state: RootState) => state.rewardReducer)
     return (
         <>
             <Modal
                 open={showToast}
-                onClose={closeDialog}
+                onClose={() => dispatch(setCloseToast())}
             >
                 <Box sx={style}>
                     <Box>
@@ -51,7 +52,7 @@ export const ToastRewardSuccess = () => {
                         </Box>
                     </Box>
                     <Link style={{ textDecoration: 'none', color: 'inherit' }} to='/reward' >
-                        <Button onClick={closeDialog} sx={{ ...stylesBtn }}>Back to reward management </Button>
+                        <Button onClick={() => dispatch(setCloseToast())} sx={{ ...stylesBtn }}>Back to reward management </Button>
                     </Link>
                 </Box>
 

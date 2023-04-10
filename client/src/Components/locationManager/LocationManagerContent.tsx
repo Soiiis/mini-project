@@ -12,19 +12,24 @@ import {
     NativeSelect,
     styled,
     FormControl,
+    Stack,
 } from "@mui/material";
 import { textAlign } from "@mui/system";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridValueGetterParams } from "@mui/x-data-grid";
 import React, { useRef } from "react";
 import { useContext, useEffect, useState } from "react";
-import { LocationManagerContext } from "../../contexts/LocationManagerContext";
+import { useSelector } from "react-redux";
+import { deleteManagerLocation, findLocationById, getManagerLocations } from "../../redux/apiReq/locationReq";
+import { setShowDetails, setShowLocationModal } from "../../redux/slice/locationSlice";
+import { setShowPostModal } from "../../redux/slice/postSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
 import { ToastPostSuccess } from "../postManager/ToastPostSuccess";
 import { LocationManagerModal } from "./locationManagerModal";
 import { ToastLocationSuccess } from "./ToastLocationSuccess";
-// import { PostManagerModal } from "./postManagerModal";
-// import { ToastPostSuccess } from "./ToastPostSuccess";
-
-
+import dayjs from 'dayjs';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import InfoIcon from '@mui/icons-material/Info';
+import { LocationManagerDetails } from "./locationManagerDetail";
 
 //Style Button
 const styles = {
@@ -35,19 +40,22 @@ const styles = {
 };
 
 export const LocationManagerContent = () => {
-    //Context
-    const {
-        locationManagerState: { locations, locationLoading },
-        getManagerLocations, setShowToast, setShowAddLocationModal
-    }: any = useContext(LocationManagerContext);
+    const { locations, locationLoading, showModal } = useSelector((state: RootState) => state.locationReducer)
+    const dispatch = useAppDispatch()
     //Start get all ManagerLocations
     useEffect(() => {
-        getManagerLocations();
+        dispatch(getManagerLocations());
     }, []);
     console.log(locations);
 
 
-
+    const handleDeleteLocation = (id: string) => () => {
+        dispatch(deleteManagerLocation(id))
+    }
+    const handleViewDetailLocation = (id: string) => () => {
+        dispatch(findLocationById(id))
+        dispatch(setShowDetails())
+    }
     const columns = [
         { field: "addressId", headerName: "ADDRESS ID", width: 120 },
         {
@@ -76,6 +84,15 @@ export const LocationManagerContent = () => {
             field: "releaseDate",
             headerName: "ADDED DATE",
             width: 300,
+            renderCell: (params: any) => {
+                return (
+                    <>
+
+                        {dayjs(params.row.releaseDate).format('DD/MM/YYYY')}
+
+                    </>
+                )
+            }
 
         },
         {
@@ -119,6 +136,29 @@ export const LocationManagerContent = () => {
                     );
             },
         },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'ACTIONS',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: ({ id }: any) => {
+                return [
+                    <GridActionsCellItem
+                        icon={<DeleteIcon />}
+                        label="Delete"
+                        onClick={handleDeleteLocation(id)}
+                        color="inherit"
+                    />,
+                    <GridActionsCellItem
+                        icon={<InfoIcon />}
+                        label="Delete"
+                        onClick={handleViewDetailLocation(id)}
+                        color="inherit"
+                    />,
+                ];
+            },
+        }
     ];
     let body = null;
 
@@ -153,7 +193,7 @@ export const LocationManagerContent = () => {
                         Location Management
                     </Typography>
                     <Button
-                        onClick={setShowAddLocationModal.bind(this, true)}
+                        onClick={() => dispatch(setShowLocationModal())}
                         variant="contained"
                         sx={{
                             ...styles,
@@ -164,6 +204,7 @@ export const LocationManagerContent = () => {
                     </Button>
                     <LocationManagerModal />
                     <ToastLocationSuccess />
+                    <LocationManagerDetails />
                 </Box>
                 <DataGrid
                     sx={{ mr: '14px', ml: "24px", backgroundColor: ' #FFFFFF', mt: '24px' }}

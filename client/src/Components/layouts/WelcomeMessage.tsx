@@ -1,10 +1,12 @@
 import { Typography, Box, Avatar } from '@mui/material'
 import IconLocation from '../../images/LocationIcon.png'
 import { useContext } from 'react'
-import { AuthContext } from '../../contexts/AuthContext'
 import { useEffect, useState, useLayoutEffect } from 'react'
+import { useSelector } from 'react-redux'
 export const WelcomeMessage = () => {
-    const { authState: { user } }: any = useContext(AuthContext)
+    // const { authState: { user } }: any = useContext(AuthContext)
+    const { authReducer: { user } }: any = useSelector((state: any) => state);
+
     const [nameUser, setNameUser] = useState('');
     useEffect(() => {
         if (user) {

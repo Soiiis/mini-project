@@ -2,8 +2,12 @@ import { Modal, Box, Typography, InputLabel, FormControl, NativeSelect, MenuItem
 import { useContext, useEffect, useState } from 'react';
 import { store } from "../../utils/fireBase";
 import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
-import { LocationManagerContext } from "../../contexts/LocationManagerContext";
 import setImage from '../../images/SetImage.png'
+import { addManagerLocation } from '../../redux/apiReq/locationReq';
+import { RootState, useAppDispatch } from '../../redux/store';
+import { setCloseLocationModal, setShowLocationModal, setShowToast } from '../../redux/slice/locationSlice';
+import { useSelector } from 'react-redux';
+import { AlertMessage } from '../layouts/AlertMessage';
 
 //Style Modal
 const style = {
@@ -46,34 +50,30 @@ const StyleSelect = styled(Select)({
 });
 
 export const LocationManagerModal = () => {
-
-    //Context
-    const {
-
-        showAddLocationModal, closeDialog, addManagerLocation, setShowToast, showToast, setShowAddLocationModal
-    }: any = useContext(LocationManagerContext);
+    const dispatch = useAppDispatch()
+    const { showModal } = useSelector((state: RootState) => state.locationReducer)
     const [newLocationManager, setNewLocationManager] = useState({
+        _id: '',
         addressId: "9256821912",
         address: '',
         imageUrl: '',
         location: 'Sydney',
         status: true
     })
-    // image state
+
     const submitLocationManagerForm = async (event: any) => {
         event.preventDefault();
-        const postData = await addManagerLocation(newLocationManager)
+        const addNewLocations = await dispatch(addManagerLocation(newLocationManager))
         setNewLocationManager({
-
+            _id: '',
             addressId: "9256821912",
             address: '',
             imageUrl: '',
             location: 'Sydney',
             status: true
         })
-        setShowAddLocationModal(false)
-        setShowToast(true)
-
+        dispatch(setCloseLocationModal())
+        dispatch(setShowToast())
     }
 
     const { addressId, address, imageUrl, location, status } = newLocationManager
@@ -112,17 +112,18 @@ export const LocationManagerModal = () => {
                     console.log(error);
 
                 });
-        },)
+        }, 1000)
     }
 
 
     return (
         <>
             <Modal
-                open={showAddLocationModal}
-                onClose={closeDialog}
+                open={showModal}
+                onClose={() => dispatch(setCloseLocationModal())}
             >
                 <Box component="form" onSubmit={submitLocationManagerForm}>
+
                     <Box sx={{ ...style }}>
                         <Typography
                             id="modal-modal-title"
@@ -171,6 +172,7 @@ export const LocationManagerModal = () => {
                             </Box>
                         </Box>
                     </Box>
+
                 </Box>
             </Modal>
         </>

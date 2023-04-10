@@ -1,9 +1,10 @@
 import { Box, Typography, Modal, Button } from '@mui/material'
 import { useContext } from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { LocationManagerContext } from '../../contexts/LocationManagerContext'
-import { PaymentRecordContext } from '../../contexts/PaymentRecordContext';
 import ImageSucess from '../../images/SucessImage.png'
+import { setCloseToast } from '../../redux/slice/paymentSlice';
+import { RootState, useAppDispatch } from '../../redux/store';
 
 //style modal
 const style = {
@@ -30,13 +31,13 @@ const stylesBtn = {
 };
 
 export const ToastPaymentSuccess = () => {
-    //context
-    const { showToast, closeDialog }: any = useContext(PaymentRecordContext)
+    const dispatch = useAppDispatch()
+    const { showToast } = useSelector((state: RootState) => state.paymentReducer)
     return (
         <>
             <Modal
                 open={showToast}
-                onClose={closeDialog}
+                onClose={() => dispatch(setCloseToast())}
             >
                 <Box sx={style}>
                     <Box>
@@ -51,7 +52,7 @@ export const ToastPaymentSuccess = () => {
                         </Box>
                     </Box>
                     <Link style={{ textDecoration: 'none', color: 'inherit' }} to='/payment' >
-                        <Button onClick={closeDialog} sx={{ ...stylesBtn }}>Back to payment record </Button>
+                        <Button onClick={() => dispatch(setCloseToast())} sx={{ ...stylesBtn }}>Back to payment record </Button>
                     </Link>
                 </Box>
             </Modal>

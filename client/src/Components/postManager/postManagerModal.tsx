@@ -2,8 +2,11 @@ import { Modal, Box, Typography, InputLabel, FormControl, NativeSelect, MenuItem
 import { useContext, useEffect, useState } from 'react';
 import { store } from "../../utils/fireBase";
 import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
-import { PostManagerContext } from "../../contexts/PostManagerContext";
 import setImage from '../../images/SetImage.png'
+import { addManagerPost } from '../../redux/apiReq/postReq';
+import { RootState, useAppDispatch } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { setClosePostModal, setShowPostModal, setShowToast } from '../../redux/slice/postSlice';
 
 //Style Modal
 const style = {
@@ -46,30 +49,34 @@ const StyleSelect = styled(Select)({
 });
 
 export const PostManagerModal = () => {
-
-    //Context
-    const {
-
-        showAddPostModal, closeDialog, addManagerPost, setShowToast, showToast, setShowAddPostModal, getManagerPosts
-    }: any = useContext(PostManagerContext);
+    const dispatch = useAppDispatch()
+    const { postReducer: { showModal, showToast } }: any = useSelector((state: RootState) => state)
+    console.log(showModal);
+    const handleClose = () => {
+        dispatch(setClosePostModal())
+    }
     const [newPostManager, setNewPostManager] = useState({
+        _id: '',
+        postId: '9256821912',
         title: '',
         imageUrl: '',
         view: 200,
         status: true
     })
-    // image state
+
     const submitPostManagerForm = async (event: any) => {
         event.preventDefault();
-        const { sucess, message } = await addManagerPost(newPostManager)
+        const addNewPosts = await dispatch(addManagerPost(newPostManager))
         setNewPostManager({
+            _id: '',
+            postId: '9256821912',
             title: '',
             imageUrl: '',
             view: 200,
             status: true
         })
-        setShowAddPostModal(false)
-        setShowToast(true)
+        dispatch(setClosePostModal())
+        dispatch(setShowToast())
 
     }
 
@@ -99,6 +106,7 @@ export const PostManagerModal = () => {
                     // const img = document.getElementsByClassName('.image');
                     // // img.setAttribute('src', url);
                     // console.log(img);
+                    console.log(url);
 
                     setNewPostManager({ ...newPostManager, imageUrl: url })
                 })
@@ -106,15 +114,15 @@ export const PostManagerModal = () => {
                     console.log(error);
 
                 });
-        },)
+        }, 1000)
     }
 
 
     return (
         <>
             <Modal
-                open={showAddPostModal}
-                onClose={closeDialog}
+                open={showModal}
+                onClose={handleClose}
             >
                 <Box component="form" onSubmit={submitPostManagerForm}>
                     <Box sx={{ ...style }}>

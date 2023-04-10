@@ -1,8 +1,10 @@
 import { Typography, Avatar, Box, TextField, Button, Grid, Link, InputLabel } from "@mui/material";
 import { useContext, useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from '../../contexts/AuthContext'
 import { AlertMessage } from '../layouts/AlertMessage'
+import { registerUser } from "../../redux/apiReq/authReq"
+import { useAppDispatch } from "../../redux/store";
+
 const styles = {
   backgroundColor: '#2BA84A',
   '&:hover': {
@@ -11,8 +13,10 @@ const styles = {
 }
 
 const RegisterForm = () => {
+  const dispatch = useAppDispatch()
+
   //Context
-  const { registerUser }: any = useContext(AuthContext);
+  // const { registerUser }: any = useContext(AuthContext);
   //Router
   const navigate = useNavigate();
   // Local State
@@ -41,9 +45,11 @@ const RegisterForm = () => {
     }
 
     try {
-      const registerData = await registerUser(registerForm)
-      if (!registerData.success) {
-        setAlert({ type: 'error', message: registerData.message })
+      const registerData = await dispatch(registerUser(registerForm))
+
+      // const registerData = await registerUser(registerForm)
+      if (!registerData.payload.success) {
+        setAlert({ type: 'error', message: registerData.payload.message })
         setTimeout(() => setAlert(null), 5000)
       }
     }
@@ -111,7 +117,7 @@ const RegisterForm = () => {
           <Link href="/login" variant="body2" underline="none" sx={{ mr: 1, mt: 0.5, mf: 0.5, color: '#2BA84A' }} >
             {'Click here'}
           </Link>
-          <Typography > to Sign up if you have an account</Typography>
+          <Typography > to Sign in if you have an account</Typography>
         </Grid>
       </Box>
     </>

@@ -11,20 +11,23 @@ import IconLocation from "../../images/IconLocationColor.png";
 import IconReward from "../../images/IconRewardColor.png";
 import IconPayment from "../../images/IconPaymentColor.png";
 import { useContext } from "react";
-import { PostManagerContext } from "../../contexts/PostManagerContext";
-import { LocationManagerContext } from "../../contexts/LocationManagerContext";
 
 import { PostManagerModal } from "../postManager/postManagerModal";
 import { ToastPostSuccess } from "../postManager/ToastPostSuccess";
 import { Navigate } from "react-router-dom";
-import { RewardManagerContext } from "../../contexts/RewardManagerContext";
-import { PaymentRecordContext } from "../../contexts/PaymentRecordContext";
 import { RewardManagerModal } from "../rewards/rewardManagerModal";
 import { ToastRewardSuccess } from "../rewards/ToastRewardSuccess";
 import { LocationManagerModal } from "../locationManager/locationManagerModal";
 import { ToastLocationSuccess } from "../locationManager/ToastLocationSuccess";
 import { PaymentRecordModal } from "../payments/PaymentRecordModal";
 import { ToastPaymentSuccess } from "../payments/ToastPaymentSuccess";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { setShowPostModal } from "../../redux/slice/postSlice";
+import { setShowLocationModal } from "../../redux/slice/locationSlice";
+import { setShowPaymentModal } from "../../redux/slice/paymentSlice";
+import { setShowRewardModal } from "../../redux/slice/rewardSlice";
+
 
 const styles = {
     backgroundColor: "#2BA84A",
@@ -34,11 +37,9 @@ const styles = {
 };
 
 export const Content = () => {
+    const dispatch = useAppDispatch()
     //context
-    const { showAddPostModal, setShowAddPostModal }: any = useContext(PostManagerContext)
-    const { showAddLocationModal, setShowAddLocationModal }: any = useContext(LocationManagerContext)
-    const { showAddRewardModal, setShowAddRewardModal }: any = useContext(RewardManagerContext)
-    const { showAddPaymentModal, setShowAddPaymentModal }: any = useContext(PaymentRecordContext)
+
 
     return (
         <Box sx={{ display: "flex", ml: "24px", mt: "16px" }}>
@@ -58,7 +59,7 @@ export const Content = () => {
                                 ...styles,
                                 mt: 2,
                             }}
-                            onClick={setShowAddPostModal.bind(this, true)}
+                            onClick={() => dispatch(setShowPostModal())}
                         >
                             New Post
                         </Button>
@@ -81,7 +82,7 @@ export const Content = () => {
                                 ...styles,
                                 mt: 2,
                             }}
-                            onClick={setShowAddRewardModal.bind(this, true)}
+                            onClick={() => dispatch(setShowRewardModal())}
                         >
                             Add Reward
                         </Button>
@@ -108,7 +109,7 @@ export const Content = () => {
                                 ...styles,
                                 mt: 2,
                             }}
-                            onClick={setShowAddLocationModal.bind(this, true)}
+                            onClick={() => dispatch(setShowLocationModal())}
                         >
                             Add Location
                         </Button>
@@ -133,7 +134,7 @@ export const Content = () => {
                                 ...styles,
                                 mt: 2,
                             }}
-                            onClick={setShowAddPaymentModal.bind(this, true)}
+                            onClick={() => dispatch(setShowPaymentModal())}
                         >
                             Add new payment record
                         </Button>

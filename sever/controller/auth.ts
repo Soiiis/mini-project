@@ -24,12 +24,30 @@ export const check = async (req: Request, res: Response) => {
 // Register
 export const register = async (req: Request, res: Response) => {
   const { username, password } = req.body;
-
+  var regex = /^[A-Za-z0-9 ]+$/;
+  var isvalid = regex.test(username);
   if (!username || !password)
     return res
       .status(400)
       .json({ success: false, message: " Missing username and/or password" });
-
+  if (password.length < 6)
+    return res.status(400).json({
+      success: false,
+      message: "Password must be at least 6 characters.",
+    });
+  if (username.length < 6) {
+    return res.status(404).json({
+      success: false,
+      message: "Username must be at least 6 characters",
+    });
+  }
+  if (!isvalid) {
+    return res.status(404).json({
+      success: false,
+      message: "Username not includes the special character",
+      // message: "Oke",
+    });
+  }
   try {
     // Check for existing user
     const user = await User.findOne({ username });

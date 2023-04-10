@@ -1,13 +1,22 @@
 import express from "express";
-import { getPayment, postPayment } from "../controller/paymentrecord";
+import {
+  deletePayment,
+  findPaymentById,
+  getPayment,
+  postPayment,
+} from "../controller/paymentrecord";
 const router = express.Router();
 import { verifyToken } from "../middleware/auth";
 // @route GET post/read-post
 // @route POST post/create-post
 
-// Get manager
+// Get payment
 router.get("/get-payment", verifyToken, getPayment);
-// post manager
+// find payment
+router.get("/get-payment/:id", verifyToken, findPaymentById);
+// post payment
 router.post("/create-payment", verifyToken, postPayment);
+//delete payment
+router.delete("/delete-payment/:id", verifyToken, deletePayment);
 
 export default router;

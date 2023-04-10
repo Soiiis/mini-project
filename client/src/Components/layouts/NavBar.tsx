@@ -49,26 +49,7 @@ const S_NavLink = styled(NavLink)({
 
 
 export const NavBar = () => {
-    // useEffect(() => {
-    //     const overfliw = document.querySelectorAll(".navbar--menu__block");
-    //     overfliw.forEach(over => {
-    //         over.addEventListener('click', () => {
-    //             handleRemoveActive();
-    //             over.classList.add('true');
 
-
-    //         })
-    //     })
-    // });
-
-    // const handleRemoveActive = () => {
-    //     const overfliw = document.querySelectorAll(".navbar--menu__block");
-    //     overfliw.forEach(over => {
-    //         if (over.classList.contains('true')) {
-    //             over.classList.remove('true')
-    //         }
-    //     })
-    // }
     const arrayIcon = [overview, post, location, reward, payment];
     const arrayIconShow = [
         overviewShow,
@@ -101,7 +82,7 @@ export const NavBar = () => {
                 anchor="left"
             >
                 <Toolbar></Toolbar>
-                <List>
+                <List >
                     {[
                         "Overview",
                         "Post manager",
@@ -110,7 +91,7 @@ export const NavBar = () => {
                         "Payment record",
                     ].map((text, index) => (
                         <ListItem key={text} disablePadding >
-                            <ListItemButton
+                            <ListItemButton sx={{ padding: '6px 0 0 6px' }}
                             >
                                 <NavLink to={`/${arrLink[index]}`} style={({ isActive }) =>
                                     isActive ? activeStyle : Style
