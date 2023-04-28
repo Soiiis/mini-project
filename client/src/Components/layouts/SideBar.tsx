@@ -1,13 +1,7 @@
 
 import IconMenu from '../../images/IconMenu.png'
-// import IconOverview from '../../images/IconOverview.png'
-// import IconPost from '../../images/IconPost.png'
-// import IconReward from '../../images/IconReward.png'
-// import IconLocation from '../../images/IconLocation.png'
-// import IconPayment from '../../images/IconPayment.png'
 import { Link, NavLink } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material'
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material'
 import styled from 'styled-components'
 import overview from '../../images/IconOverview.png'
 import overviewShow from '../../images/IconOverviewColor.png'
@@ -19,6 +13,7 @@ import reward from '../../images/IconReward.png'
 import rewardShow from '../../images/IconRewardColor.png'
 import payment from '../../images/IconPayment.png'
 import paymentShow from '../../images/IconPaymentColor.png'
+import { log } from 'console'
 
 const S_textLeft = styled(ListItemText)({
     "& .css-10hburv-MuiTypography-root": {
@@ -48,8 +43,7 @@ const S_NavLink = styled(NavLink)({
 
 
 
-export const NavBar = () => {
-
+export const SideBar = () => {
     const arrayIcon = [overview, post, location, reward, payment];
     const arrayIconShow = [
         overviewShow,
@@ -59,10 +53,11 @@ export const NavBar = () => {
         paymentShow,
     ];
     const arrLink = ['dashboard', 'post-manager', 'location', 'reward', 'payment']
+    const check = window.location.pathname
 
     return (
         <div className="navbar">
-            <Link to='/dashboard' >
+            <Link to='/home' >
                 <div className="navbar--logo" >
                     <img src={IconMenu} className="navbar--logo__icon" />
                     <p className="navbar--logo__text">Startnow</p>
@@ -101,7 +96,8 @@ export const NavBar = () => {
                                             <img
                                                 style={{ width: `18px`, marginRight: '18px' }}
                                                 src={
-                                                    arrayIconShow[index]
+                                                    check === `/${arrLink[index]}` ? arrayIconShow[index] : arrayIcon[index]
+
                                                 }
                                             />
                                         </ListItemIcon>

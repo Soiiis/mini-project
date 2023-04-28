@@ -2,8 +2,8 @@ import { SideBar } from '../Components/layouts/SideBar'
 import { HeaderBar } from '../Components/layouts/HeaderBar'
 import { Grid } from '@mui/material'
 import { WelcomeMessage } from '../Components/layouts/WelcomeMessage'
-import { Content } from '../Components/layouts/Content'
-export const DashBoard = () => {
+import { HomeContent } from '../Components/home/HomeContent'
+export const Home = () => {
     return (
         <Grid container sx={{ height: '100vh' }}>
             <Grid item md={2} >
@@ -12,7 +12,7 @@ export const DashBoard = () => {
             <Grid item md={10} >
                 <HeaderBar />
                 <WelcomeMessage />
-                <Content />
+                <HomeContent />
             </Grid>
         </Grid>
     )

@@ -38,8 +38,6 @@ const styles = {
 
 export const Content = () => {
     const dispatch = useAppDispatch()
-    //context
-
 
     return (
         <Box sx={{ display: "flex", ml: "24px", mt: "16px" }}>
