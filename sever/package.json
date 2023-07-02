@@ -5,7 +5,8 @@
   "main": "source/sever.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index"
+    "start": "nodemon index",
+    "build": "npm i"
   },
   "author": "",
   "license": "ISC",
