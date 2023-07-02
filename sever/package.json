@@ -5,9 +5,9 @@
   "main": "source/sever.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.ts",
+    "start": "npx nodemon index.ts",
     "build": "npm i",
-    "dev" : "node index"
+    "dev" : "node index.ts"
   },
   "author": "",
   "license": "ISC",
