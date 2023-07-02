@@ -96,7 +96,10 @@ export const login = async (req: Request, res: Response) => {
         .json({ success: false, message: "Incorrect username or password" });
     }
     // User name found
-    const passwordValid = await argon2.verify(user.password, password);
+    const passwordValid = await argon2.verify(
+      user.password as string,
+      password
+    );
     if (!passwordValid) {
       return res
         .status(400)
