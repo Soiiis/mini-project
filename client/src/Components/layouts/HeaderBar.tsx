@@ -55,7 +55,7 @@ export const HeaderBar = () => {
   return (
     <Box sx={{ flexGrow: 1, border: '1px solid #F4F5F6' }}>
       <AppBar position="static" color='inherit' sx={{ boxShadow: 'none', }}>
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Search sx={{ paddingRight: '360px' }}>
             <SearchIconWrapper>
               <SearchIcon />
@@ -65,8 +65,10 @@ export const HeaderBar = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Avatar src={AvatarImage} sx={{ right: 12, position: 'absolute' }} />
-          <LogoutIcon sx={{ marginLeft: '550px', cursor: 'pointer', }} onClick={logout} />
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <LogoutIcon sx={{ cursor: 'pointer' }} onClick={logout} />
+            <Avatar src={AvatarImage} sx={{ mr: 6, ml: 6 }} />
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

@@ -1,9 +1,8 @@
 import { Box, Typography, Modal, Button } from '@mui/material'
-import { useContext } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ImageSucess from '../../images/SucessImage.png'
-import { setClosePostModal, setCloseToast } from '../../redux/slice/postSlice';
+import { setCloseToast } from '../../redux/slice/postSlice';
 import { RootState, useAppDispatch } from '../../redux/store';
 
 //style modal

@@ -1,11 +1,6 @@
-import { createReducer, createAction, createSlice, PayloadAction, current, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from '../../constants/constants'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from '../../types/type'
-import { setAuthToken } from '../../utils/setAuthToken'
-import { loadUser, loginUser } from '../apiReq/authReq'
+import { loadUser } from '../apiReq/authReq'
 
 
 export interface AuthState {
@@ -39,10 +34,10 @@ const authSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(loadUser.pending, (state, action) => {
+            .addCase(loadUser.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(loadUser.rejected, (state, action: PayloadAction<any>) => {
+            .addCase(loadUser.rejected, (state) => {
                 state.authLoading = false
                 state.isAuthenticated = false
                 // return authSlice.caseReducers.logOut(state)
@@ -50,7 +45,7 @@ const authSlice = createSlice({
             .addCase(loadUser.fulfilled, (state, action) => {
                 return authSlice.caseReducers.setAuth(state, action)
             })
-            .addDefaultCase((state, action) => {
+            .addDefaultCase((state) => {
                 return state
             })
 

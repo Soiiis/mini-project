@@ -80,41 +80,26 @@ export const LocationManagerModal = () => {
 
     const onChangeNewLocationManagerForm = (event: any) => setNewLocationManager({ ...newLocationManager, [event.target.name]: event.target.value })
 
-    const onChangeImage = (event: any) => {
-        let file = event.target.files[0];
-        let fileRef = ref(store, file.name)
-        uploadBytes(fileRef, file)
-            .then((snapshot) => {
-                console.log('Uploaded sucessfully');
-            })
+    const onChangeImage = async (event: any) => {
+        try {
+            let file = event.target.files[0];
+            let fileRef = ref(store, file.name);
 
-        setTimeout(() => {
-            getDownloadURL(fileRef)
-                .then((url) => {
-                    // `url` is the download URL for 'images/stars.jpg'
-                    // This can be downloaded directly:
-                    // const xhr = new XMLHttpRequest();
-                    // xhr.responseType = 'blob';
-                    // xhr.onload = (event) => {
-                    //     const blob = xhr.response;
-                    // };
-                    // xhr.open('GET', url);
-                    // xhr.send();
-                    // // Or inserted into an <img> element
-                    // const img = document.getElementsByClassName('.image');
-                    // // img.setAttribute('src', url);
-                    // console.log(img);
-                    console.log(url);
+            // Upload the file to Firebase Storage
+            await uploadBytes(fileRef, file);
 
-                    setNewLocationManager({ ...newLocationManager, imageUrl: url })
-                })
-                .catch((error) => {
-                    console.log(error);
+            // Get the download URL
+            const url = await getDownloadURL(fileRef);
 
-                });
-        }, 1000)
-    }
+            // Update the image URL in the state
+            setNewLocationManager({ ...newLocationManager, imageUrl: url });
 
+            console.log('Uploaded successfully');
+            console.log(url);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>

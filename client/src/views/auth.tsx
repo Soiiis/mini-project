@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
 import { Avatar, CircularProgress, Typography } from "@mui/material";
 import LoginIcon from "../images/LoginIcon.png";
-import { useContext, useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { loadUser } from "../redux/apiReq/authReq";
@@ -20,7 +20,7 @@ const Auth = ({ authRoute }: { authRoute: any }) => {
     const {
         authReducer: { authLoading, isAuthenticated, isLogout },
     }: any = useSelector((state: RootState) => state);
-    console.log("check log out", isLogout);
+    // console.log("check log out", isLogout);
 
     useEffect(() => {
         if (isLogout) {
@@ -29,7 +29,7 @@ const Auth = ({ authRoute }: { authRoute: any }) => {
             dispatch(loadUser());
         }
     }, []);
-    console.log(isAuthenticated);
+    // console.log(isAuthenticated);
 
     let body;
     if (authLoading) {

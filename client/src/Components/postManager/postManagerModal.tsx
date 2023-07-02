@@ -82,40 +82,28 @@ export const PostManagerModal = () => {
 
     const { title, imageUrl, view, status } = newPostManager
     const onChangeNewPostManagerForm = (event: any) => setNewPostManager({ ...newPostManager, [event.target.name]: event.target.value })
-    const onChangeImage = (event: any) => {
-        let file = event.target.files[0];
-        let fileRef = ref(store, file.name)
-        uploadBytes(fileRef, file)
-            .then((snapshot) => {
-                console.log('Uploaded sucessfully');
-            })
 
-        setTimeout(() => {
-            getDownloadURL(fileRef)
-                .then((url) => {
-                    // `url` is the download URL for 'images/stars.jpg'
-                    // This can be downloaded directly:
-                    // const xhr = new XMLHttpRequest();
-                    // xhr.responseType = 'blob';
-                    // xhr.onload = (event) => {
-                    //     const blob = xhr.response;
-                    // };
-                    // xhr.open('GET', url);
-                    // xhr.send();
-                    // // Or inserted into an <img> element
-                    // const img = document.getElementsByClassName('.image');
-                    // // img.setAttribute('src', url);
-                    // console.log(img);
-                    console.log(url);
+    const onChangeImage = async (event: any) => {
+        try {
+            let file = event.target.files[0];
+            let fileRef = ref(store, file.name);
 
-                    setNewPostManager({ ...newPostManager, imageUrl: url })
-                })
-                .catch((error) => {
-                    console.log(error);
+            // Upload the file to Firebase Storage
+            await uploadBytes(fileRef, file);
 
-                });
-        }, 1000)
-    }
+            // Get the download URL
+            const url = await getDownloadURL(fileRef);
+
+            // Update the image URL in the state
+            setNewPostManager({ ...newPostManager, imageUrl: url });
+
+            console.log('Uploaded successfully');
+            console.log(url);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
 
     return (

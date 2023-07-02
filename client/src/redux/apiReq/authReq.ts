@@ -1,11 +1,7 @@
 import axios from "axios";
-import { createAsyncThunk, Dispatch } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "../../constants/constants";
 import { setAuthToken } from "../../utils/setAuthToken";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { AuthState, setAuth } from "../slice/authSlice";
-import { useAppDispatch } from "../store";
 
 export const loadUser = createAsyncThunk("auth/loadUser", async () => {
   if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {

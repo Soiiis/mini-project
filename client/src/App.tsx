@@ -10,10 +10,18 @@ import { LocationManager } from './views/locationManager';
 import { PaymentRecord } from './views/paymentRecord';
 import { RewardManager } from './views/rewardManager';
 import { Home } from './views/home';
+import LoadingBar from 'react-top-loading-bar'
 
 function App() {
+  const [progress, setProgress] = React.useState(0);
   return (
+
     <Router>
+      <LoadingBar
+        color='#f11946'
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Auth authRoute='login' />} />

@@ -3,21 +3,10 @@ import {
     Typography,
     Button,
     CircularProgress,
-    Avatar,
-    Modal,
-    InputLabel,
-    TextField,
-    Select,
-    MenuItem,
-    NativeSelect,
-    styled,
-    FormControl,
 } from "@mui/material";
-import { textAlign } from "@mui/system";
-import { DataGrid, GridActionsCellItem, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import dayjs from "dayjs";
-import React, { useRef } from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ViewIcon from "../../images/viewIcon.png";
 import { deleteManagerpost, findPostById, getManagerPosts } from "../../redux/apiReq/postReq";

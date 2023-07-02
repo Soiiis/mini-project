@@ -1,9 +1,7 @@
-import { Route, Navigate } from 'react-router-dom'
-import { useContext } from 'react'
+import { Navigate } from 'react-router-dom'
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector } from 'react-redux';
-import { AuthState } from '../../redux/slice/authSlice';
 import { RootState } from '../../redux/store';
 
 
