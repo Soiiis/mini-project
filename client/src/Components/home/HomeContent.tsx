@@ -1,4 +1,4 @@
-import { Button, Card, Drawer, Grid, Link, Typography } from "@mui/material";
+import { Button, Drawer, Grid, Link, Typography } from "@mui/material";
 import ImageContent from "../../images/ImageContent.png";
 import UnderImage from "../../images/UnderImage.png";
 import OverImage from "../../images/OverImage.png";
@@ -96,7 +96,7 @@ export const HomeContent = () => {
                             </Button>
                         </Grid>
                         <Grid item xs={5}>
-                            <img src={OverImage} width={100} />
+                            <img src={OverImage} width={100} alt="OverImage" />
                         </Grid>
                     </Grid>
                     <Grid container sx={{ p: 3, backgroundColor: "#D5EEDB", mt: "22px" }}>
@@ -125,7 +125,7 @@ export const HomeContent = () => {
                             </Button>
                         </Grid>
                         <Grid item xs={5}>
-                            <img src={UnderImage} width={100} />
+                            <img src={UnderImage} width={100} alt="underImage" />
                         </Grid>
                     </Grid>
                 </Grid>

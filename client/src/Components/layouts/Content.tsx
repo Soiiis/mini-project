@@ -1,5 +1,4 @@
 import {
-    Grid,
     Card,
     CardContent,
     Typography,
@@ -10,19 +9,16 @@ import IconPost from "../../images/IconPostColor.png";
 import IconLocation from "../../images/IconLocationColor.png";
 import IconReward from "../../images/IconRewardColor.png";
 import IconPayment from "../../images/IconPaymentColor.png";
-import { useContext } from "react";
 
 import { PostManagerModal } from "../postManager/postManagerModal";
 import { ToastPostSuccess } from "../postManager/ToastPostSuccess";
-import { Navigate } from "react-router-dom";
 import { RewardManagerModal } from "../rewards/rewardManagerModal";
 import { ToastRewardSuccess } from "../rewards/ToastRewardSuccess";
 import { LocationManagerModal } from "../locationManager/locationManagerModal";
 import { ToastLocationSuccess } from "../locationManager/ToastLocationSuccess";
 import { PaymentRecordModal } from "../payments/PaymentRecordModal";
 import { ToastPaymentSuccess } from "../payments/ToastPaymentSuccess";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../redux/store";
+import { useAppDispatch } from "../../redux/store";
 import { setShowPostModal } from "../../redux/slice/postSlice";
 import { setShowLocationModal } from "../../redux/slice/locationSlice";
 import { setShowPaymentModal } from "../../redux/slice/paymentSlice";
@@ -44,7 +40,7 @@ export const Content = () => {
             <Box sx={{ mr: "24px", }}>
                 <Card sx={{ width: "590px", border: '1px solid #EBEAED' }}>
                     <CardContent>
-                        <img src={IconPost} style={{ width: "40px", height: "48px" }} />
+                        <img src={IconPost} style={{ width: "40px", height: "48px" }} alt="icon post" />
                         <Typography variant="h6">Add a new post</Typography>
                         <Typography>
                             Amet minim mollit non deserunt ullamco est sit aliqua dolor do
@@ -67,7 +63,7 @@ export const Content = () => {
                 </Card>
                 <Card sx={{ width: "590px", mt: '24px', border: '1px solid #EBEAED' }}>
                     <CardContent>
-                        <img src={IconReward} style={{ width: "40px", height: "48px" }} />
+                        <img src={IconReward} style={{ width: "40px", height: "48px" }} alt="icon reward" />
                         <Typography variant="h6">Add new rewards and vouchers</Typography>
                         <Typography>
                             Amet minim mollit non deserunt ullamco est sit aliqua dolor do
@@ -92,7 +88,7 @@ export const Content = () => {
             <Box>
                 <Card sx={{ width: "590px", border: '1px solid #EBEAED' }}>
                     <CardContent>
-                        <img src={IconLocation} style={{ width: "40px", height: "48px" }} />
+                        <img src={IconLocation} style={{ width: "40px", height: "48px" }} alt="icon-location" />
                         <Typography variant="h6">
                             Add a new location to the application map
                         </Typography>
@@ -117,7 +113,7 @@ export const Content = () => {
                 </Card>
                 <Card sx={{ width: "590px", mt: '24px', border: '1px solid #EBEAED' }}>
                     <CardContent>
-                        <img src={IconPayment} style={{ width: "54px", height: "48px" }} />
+                        <img src={IconPayment} style={{ width: "54px", height: "48px" }} alt="icon-payment" />
                         <Typography variant="h6">
                             Update the amount of used money for donations
                         </Typography>

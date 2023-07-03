@@ -43,7 +43,7 @@ const Auth = ({ authRoute }: { authRoute: any }) => {
             </Box>
         );
     }
-    else if (isAuthenticated && localStorage.length == 1) return <Navigate to="/home" />;
+    else if (isAuthenticated && localStorage.length === 1) return <Navigate to="/home" />;
     else
         body = (
             <>

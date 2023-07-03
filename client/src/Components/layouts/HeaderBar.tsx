@@ -1,15 +1,13 @@
 import { Box, AppBar, Toolbar } from '@mui/material'
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import AvatarImage from '../../images/AvatarImage.png'
 import Avatar from '@mui/material/Avatar';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useContext, useEffect } from 'react'
 import { LOCAL_STORAGE_TOKEN_NAME } from '../../constants/constants';
 import { useAppDispatch } from '../../redux/store';
-import { logOut, setAuth } from '../../redux/slice/authSlice';
-import { loadUser } from '../../redux/apiReq/authReq';
+import { logOut } from '../../redux/slice/authSlice';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,

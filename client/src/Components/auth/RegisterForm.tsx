@@ -1,6 +1,5 @@
-import { Typography, Avatar, Box, TextField, Button, Grid, Link, InputLabel } from "@mui/material";
-import { useContext, useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { Typography, Box, TextField, Button, Grid, Link, InputLabel } from "@mui/material";
+import { useState } from 'react'
 import { AlertMessage } from '../layouts/AlertMessage'
 import { registerUser } from "../../redux/apiReq/authReq"
 import { useAppDispatch } from "../../redux/store";
@@ -18,7 +17,6 @@ const RegisterForm = () => {
   //Context
   // const { registerUser }: any = useContext(AuthContext);
   //Router
-  const navigate = useNavigate();
   // Local State
   const [registerForm, setRegisterForm] = useState({
     username: '',

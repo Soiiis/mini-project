@@ -18,7 +18,7 @@ export const ProtectedRoute = ({ component: Component, children }: any) => {
       </Box>
     )
   }
-  else if (isAuthenticated && localStorage.length == 1) {
+  else if (isAuthenticated && localStorage.length === 1) {
     return children
   }
   return (

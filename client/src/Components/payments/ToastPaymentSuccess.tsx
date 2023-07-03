@@ -1,5 +1,4 @@
 import { Box, Typography, Modal, Button } from '@mui/material'
-import { useContext } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ImageSucess from '../../images/SucessImage.png'
@@ -48,7 +47,7 @@ export const ToastPaymentSuccess = () => {
                             Your post created successfully.
                         </Typography>
                         <Box sx={{ textAlign: 'center' }}>
-                            <img src={ImageSucess} style={{ width: "240px", height: "186px", marginTop: "36px", verticalAlign: "middle" }} />
+                            <img src={ImageSucess} style={{ width: "240px", height: "186px", marginTop: "36px", verticalAlign: "middle" }} alt='success' />
                         </Box>
                     </Box>
                     <Link style={{ textDecoration: 'none', color: 'inherit' }} to='/payment' >

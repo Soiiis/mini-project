@@ -63,7 +63,7 @@ export const PaymentRecordModal = () => {
     // image state
     const submitPaymentForm = async (event: any) => {
         event.preventDefault();
-        const postData = await dispatch(addPayment(newPayment))
+        await dispatch(addPayment(newPayment))
         setNewPayment({
             _id: '',
             logId: "9256821912",
@@ -160,7 +160,7 @@ export const PaymentRecordModal = () => {
                                     </Box>
                                     <Box>
                                         <label style={{ marginTop: `20px` }} htmlFor="inputFile">
-                                            <img src={setImage} style={{ width: '163px', height: '178px', marginTop: "12px", cursor: "pointer" }} />
+                                            <img src={setImage} style={{ width: '163px', height: '178px', marginTop: "12px", cursor: "pointer" }} alt='set' />
                                         </label>
                                         <input
                                             style={{ display: "none" }}
@@ -170,7 +170,6 @@ export const PaymentRecordModal = () => {
                                             required
                                             onChange={onChangeImage}
                                         />
-
                                     </Box>
                                 </Box>
                             </Box>

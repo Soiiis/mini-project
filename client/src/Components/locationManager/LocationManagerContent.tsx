@@ -3,27 +3,13 @@ import {
     Typography,
     Button,
     CircularProgress,
-    Avatar,
-    Modal,
-    InputLabel,
-    TextField,
-    Select,
-    MenuItem,
-    NativeSelect,
-    styled,
-    FormControl,
-    Stack,
 } from "@mui/material";
-import { textAlign } from "@mui/system";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridValueGetterParams } from "@mui/x-data-grid";
-import React, { useRef } from "react";
-import { useContext, useEffect, useState } from "react";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { deleteManagerLocation, findLocationById, getManagerLocations } from "../../redux/apiReq/locationReq";
 import { setShowDetails, setShowLocationModal } from "../../redux/slice/locationSlice";
-import { setShowPostModal } from "../../redux/slice/postSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { ToastPostSuccess } from "../postManager/ToastPostSuccess";
 import { LocationManagerModal } from "./locationManagerModal";
 import { ToastLocationSuccess } from "./ToastLocationSuccess";
 import dayjs from 'dayjs';
@@ -40,7 +26,7 @@ const styles = {
 };
 
 export const LocationManagerContent = () => {
-    const { locations, locationLoading, showModal } = useSelector((state: RootState) => state.locationReducer)
+    const { locations, locationLoading } = useSelector((state: RootState) => state.locationReducer)
     const dispatch = useAppDispatch()
     //Start get all ManagerLocations
     useEffect(() => {
@@ -69,6 +55,7 @@ export const LocationManagerContent = () => {
 
                             src={params.row.imageUrl}
                             style={{ width: "36px", height: "36px", marginRight: "16px" }}
+                            alt="address-img"
                         />
                         {params.row.address}
                     </>

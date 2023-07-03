@@ -3,23 +3,11 @@ import {
     Typography,
     Button,
     CircularProgress,
-    Avatar,
-    Modal,
-    InputLabel,
-    TextField,
-    Select,
-    MenuItem,
-    NativeSelect,
-    styled,
-    FormControl,
 } from "@mui/material";
-import { textAlign } from "@mui/system";
-import { DataGrid, GridActionsCellItem, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import dayjs from "dayjs";
-import React, { useRef } from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import ViewIcon from "../../images/viewIcon.png";
 import { deleteManagerReward, findRewardById, getReward } from "../../redux/apiReq/rewardReq";
 import { setShowRewardModal } from "../../redux/slice/rewardSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -41,7 +29,7 @@ const styles = {
 };
 
 export const RewardManagerContent = () => {
-    const { rewards, rewardLoading, showModal } = useSelector((state: RootState) => state.rewardReducer)
+    const { rewards, rewardLoading } = useSelector((state: RootState) => state.rewardReducer)
     const dispatch = useAppDispatch()
     //Start get all ManagerRewards
     useEffect(() => {
@@ -67,9 +55,9 @@ export const RewardManagerContent = () => {
                 return (
                     <>
                         <img
-
                             src={params.row.imageUrl}
                             style={{ width: "36px", height: "36px", marginRight: "16px" }}
+                            alt="voucher-code"
                         />
                         {params.row.information}
                     </>

@@ -1,12 +1,12 @@
 import { Modal, Box, Typography, InputLabel, FormControl, NativeSelect, MenuItem, TextField, Button, styled, Select } from '@mui/material'
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { store } from "../../utils/fireBase";
-import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import setImage from '../../images/SetImage.png'
 import { addManagerPost } from '../../redux/apiReq/postReq';
 import { RootState, useAppDispatch } from '../../redux/store';
 import { useSelector } from 'react-redux';
-import { setClosePostModal, setShowPostModal, setShowToast } from '../../redux/slice/postSlice';
+import { setClosePostModal, setShowToast } from '../../redux/slice/postSlice';
 
 //Style Modal
 const style = {
@@ -50,7 +50,7 @@ const StyleSelect = styled(Select)({
 
 export const PostManagerModal = () => {
     const dispatch = useAppDispatch()
-    const { postReducer: { showModal, showToast } }: any = useSelector((state: RootState) => state)
+    const { postReducer: { showModal } }: any = useSelector((state: RootState) => state)
     console.log(showModal);
     const handleClose = () => {
         dispatch(setClosePostModal())
@@ -66,7 +66,7 @@ export const PostManagerModal = () => {
 
     const submitPostManagerForm = async (event: any) => {
         event.preventDefault();
-        const addNewPosts = await dispatch(addManagerPost(newPostManager))
+        await dispatch(addManagerPost(newPostManager))
         setNewPostManager({
             _id: '',
             postId: '9256821912',
@@ -165,7 +165,7 @@ export const PostManagerModal = () => {
                                     </Box>
                                     <Box>
                                         <label style={{ marginTop: `20px` }} htmlFor="inputFile">
-                                            <img src={setImage} style={{ width: '163px', height: '178px', marginTop: "12px", cursor: "pointer" }} />
+                                            <img src={setImage} style={{ width: '163px', height: '178px', marginTop: "12px", cursor: "pointer" }} alt='set' />
                                         </label>
                                         <input
                                             style={{ display: "none" }}

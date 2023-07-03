@@ -1,13 +1,12 @@
-import { Modal, Box, Typography, InputLabel, FormControl, NativeSelect, MenuItem, TextField, Button, styled, Select } from '@mui/material'
-import { useContext, useEffect, useState } from 'react';
+import { Modal, Box, Typography, InputLabel, MenuItem, TextField, Button, styled, Select } from '@mui/material'
+import { useState } from 'react';
 import { store } from "../../utils/fireBase";
-import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import setImage from '../../images/SetImage.png'
 import { addManagerLocation } from '../../redux/apiReq/locationReq';
 import { RootState, useAppDispatch } from '../../redux/store';
-import { setCloseLocationModal, setShowLocationModal, setShowToast } from '../../redux/slice/locationSlice';
+import { setCloseLocationModal, setShowToast } from '../../redux/slice/locationSlice';
 import { useSelector } from 'react-redux';
-import { AlertMessage } from '../layouts/AlertMessage';
 
 //Style Modal
 const style = {
@@ -63,7 +62,7 @@ export const LocationManagerModal = () => {
 
     const submitLocationManagerForm = async (event: any) => {
         event.preventDefault();
-        const addNewLocations = await dispatch(addManagerLocation(newLocationManager))
+        await dispatch(addManagerLocation(newLocationManager))
         setNewLocationManager({
             _id: '',
             addressId: "9256821912",
@@ -138,7 +137,7 @@ export const LocationManagerModal = () => {
                                     </Box>
                                     <Box>
                                         <label style={{ marginTop: `20px` }} htmlFor="inputFile">
-                                            <img src={setImage} style={{ width: '163px', height: '178px', marginTop: "12px", cursor: "pointer" }} />
+                                            <img src={setImage} style={{ width: '163px', height: '178px', marginTop: "12px", cursor: "pointer" }} alt='setlect=img' />
                                         </label>
                                         <input
                                             style={{ display: "none" }}

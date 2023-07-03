@@ -13,9 +13,8 @@ import reward from '../../images/IconReward.png'
 import rewardShow from '../../images/IconRewardColor.png'
 import payment from '../../images/IconPayment.png'
 import paymentShow from '../../images/IconPaymentColor.png'
-import { log } from 'console'
 
-const S_textLeft = styled(ListItemText)({
+const StyledTextLeft = styled(ListItemText)({
     "& .css-10hburv-MuiTypography-root": {
         fontWeight: `700`,
     },
@@ -33,12 +32,7 @@ let Style = {
     width: '100%'
 }
 
-const S_NavLink = styled(NavLink)({
-    textDecoration: "none",
-    display: "block",
-    width: "100%",
-    height: "100%",
-})
+
 
 
 
@@ -59,7 +53,7 @@ export const SideBar = () => {
         <div className="navbar">
             <Link to='/home' >
                 <div className="navbar--logo" >
-                    <img src={IconMenu} className="navbar--logo__icon" />
+                    <img src={IconMenu} className="navbar--logo__icon" alt='icon-menu' />
                     <p className="navbar--logo__text">Startnow</p>
                 </div>
             </Link>
@@ -99,9 +93,10 @@ export const SideBar = () => {
                                                     check === `/${arrLink[index]}` ? arrayIconShow[index] : arrayIcon[index]
 
                                                 }
+                                                alt='side-bar-icon'
                                             />
                                         </ListItemIcon>
-                                        <S_textLeft
+                                        <StyledTextLeft
                                             primary={text}
                                         />
 

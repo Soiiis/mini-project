@@ -46,7 +46,7 @@ export const PaymentManagerDetails = () => {
                             {titleDetails}
                         </Typography>
                         <Box sx={{ textAlign: 'center' }}>
-                            <img src={imageUrlDetails} style={{ width: "240px", height: "186px", marginTop: "36px", verticalAlign: "middle" }} />
+                            <img src={imageUrlDetails} style={{ width: "240px", height: "186px", marginTop: "36px", verticalAlign: "middle" }} alt="url-details" />
                         </Box>
                     </Box>
                     <Link style={{ textDecoration: 'none', color: 'inherit' }} to='/payment' >

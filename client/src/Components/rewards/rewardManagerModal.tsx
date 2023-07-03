@@ -1,7 +1,7 @@
-import { Modal, Box, Typography, InputLabel, FormControl, NativeSelect, MenuItem, TextField, Button, styled, Select } from '@mui/material'
-import { useContext, useEffect, useState } from 'react';
+import { Modal, Box, Typography, InputLabel, TextField, Button, styled } from '@mui/material'
+import { useState } from 'react';
 import { store } from "../../utils/fireBase";
-import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import setImage from '../../images/SetImage.png'
 import { RootState, useAppDispatch } from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -41,12 +41,7 @@ const StyleInput = styled(TextField)({
     },
 
 });
-// styled select fied
-const StyleSelect = styled(Select)({
-    "& .MuiSelect-select": {
-        padding: "4px",
-    },
-});
+
 
 export const RewardManagerModal = () => {
     const dispatch = useAppDispatch()
@@ -62,7 +57,7 @@ export const RewardManagerModal = () => {
     // image state
     const submitRewardManagerForm = async (event: any) => {
         event.preventDefault();
-        const addNewReward = await dispatch(addReward(newRewardManager))
+        await dispatch(addReward(newRewardManager))
         setNewRewardManager({
             _id: '',
             code: '9256821912',
@@ -145,7 +140,7 @@ export const RewardManagerModal = () => {
                                     </Box>
                                     <Box>
                                         <label style={{ marginTop: `20px` }} htmlFor="inputFile">
-                                            <img src={setImage} style={{ width: '163px', height: '178px', marginTop: "12px", cursor: "pointer" }} />
+                                            <img src={setImage} style={{ width: '163px', height: '178px', marginTop: "12px", cursor: "pointer" }} alt='set' />
                                         </label>
                                         <input
                                             style={{ display: "none" }}
@@ -155,7 +150,6 @@ export const RewardManagerModal = () => {
                                             required
                                             onChange={onChangeImage}
                                         />
-
                                     </Box>
                                 </Box>
                             </Box>

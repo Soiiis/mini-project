@@ -1,10 +1,8 @@
 import Box from '@mui/material/Box'
 import { Button, Grid, InputLabel, Link, TextField, Typography } from "@mui/material";
-import { useState, useContext, useEffect } from "react"
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react"
 import { AlertMessage } from '../layouts/AlertMessage'
-import { loadUser, loginUser } from "../../redux/apiReq/authReq"
-import { useDispatch } from 'react-redux';
+import { loginUser } from "../../redux/apiReq/authReq"
 import { useAppDispatch } from '../../redux/store';
 const styles = {
   backgroundColor: '#2BA84A',

@@ -36,7 +36,7 @@ export const PostManagerContent = () => {
     // }: any = useContext(PostManagerContext);
     // const posts = useSelector((state: RootState) => state.postReducer.posts)
     // const postLoading = useSelector((state: RootState) => state.postReducer.postLoading)
-    const { posts, postLoading, showModal, showToast } = useSelector((state: RootState) => state.postReducer)
+    const { posts, postLoading, showModal } = useSelector((state: RootState) => state.postReducer)
     console.log(posts);
     console.log(showModal);
 
@@ -69,9 +69,9 @@ export const PostManagerContent = () => {
                 return (
                     <>
                         <img
-
                             src={params.row.imageUrl}
                             style={{ width: "36px", height: "36px", marginRight: "16px" }}
+                            alt="post-id"
                         />
                         {params.row.title}
                     </>
@@ -102,6 +102,7 @@ export const PostManagerContent = () => {
                         <img
                             src={ViewIcon}
                             style={{ width: "16px", height: "12.46px", marginRight: "4px" }}
+                            alt="view-icon"
                         />
                         {params.row.view}
                     </>

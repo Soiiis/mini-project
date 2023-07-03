@@ -50,7 +50,7 @@ export const ToastPostSuccess = () => {
                             Your post created successfully.
                         </Typography>
                         <Box sx={{ textAlign: 'center' }}>
-                            <img src={ImageSucess} style={{ width: "240px", height: "186px", marginTop: "36px", verticalAlign: "middle" }} />
+                            <img src={ImageSucess} style={{ width: "240px", height: "186px", marginTop: "36px", verticalAlign: "middle" }} alt='success' />
                         </Box>
                     </Box>
                     <Link style={{ textDecoration: 'none', color: 'inherit' }} to='/post-manager' >

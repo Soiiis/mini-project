@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 import { setCloseDetails } from "../../redux/slice/postSlice"
 import { RootState, useAppDispatch } from "../../redux/store"
 import { Link } from 'react-router-dom';
-import ImageSucess from '../../images/SucessImage.png'
 
 //style modal
 const style = {
@@ -47,7 +46,7 @@ export const PostManagerDetails = () => {
                             {titleDetails}
                         </Typography>
                         <Box sx={{ textAlign: 'center' }}>
-                            <img src={imageUrlDetails} style={{ width: "240px", height: "186px", marginTop: "36px", verticalAlign: "middle" }} />
+                            <img src={imageUrlDetails} style={{ width: "240px", height: "186px", marginTop: "36px", verticalAlign: "middle" }} alt="url-details" />
                         </Box>
                     </Box>
                     <Link style={{ textDecoration: 'none', color: 'inherit' }} to='/post-manager' >

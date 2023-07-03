@@ -3,26 +3,14 @@ import {
     Typography,
     Button,
     CircularProgress,
-    Avatar,
-    Modal,
-    InputLabel,
-    TextField,
-    Select,
-    MenuItem,
-    NativeSelect,
-    styled,
-    FormControl,
 } from "@mui/material";
-import { textAlign } from "@mui/system";
-import { DataGrid, GridActionsCellItem, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import dayjs from "dayjs";
-import React, { useRef } from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { deletePayment, findPaymentById, getPayment } from "../../redux/apiReq/paymentReq";
 import { setShowPaymentModal } from "../../redux/slice/paymentSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { ToastPostSuccess } from "../postManager/ToastPostSuccess";
 import { PaymentRecordModal } from "./PaymentRecordModal";
 import { ToastPaymentSuccess } from "./ToastPaymentSuccess";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -73,6 +61,7 @@ export const PaymentContent = () => {
 
                             src={params.row.imageUrl}
                             style={{ width: "36px", height: "36px", marginRight: "16px" }}
+                            alt="event-content"
                         />
                         {params.row.title}
                     </>
